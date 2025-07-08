@@ -1,11 +1,91 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ResumeViewer.scss';
+import { profile } from '../../data';
 
 const MORPHEUS_DIALOGUE = {
   INITIAL: "You've come seeking knowledge of the ROOT. The choice before you will determine how deep into the system you go.",
   WARNING: "Are you sure you want to intrude into the ROOT's whereabouts? After this, there is no turning back.",
   ACCEPTED: "Follow me into the depths of the system...",
   REJECTED: "Perhaps you're not ready for the truth. The system remains sealed."
+};
+
+const ResumeSection = ({ title, content }) => {
+  if (!content) return null;
+
+  const renderContent = () => {
+    if (Array.isArray(content)) {
+      return (
+        <ul className="section-list">
+          {content.map((item, index) => (
+            <li key={index} className="section-item">
+              {typeof item === 'string' ? item : renderComplexItem(item)}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+    if (typeof content === 'object') {
+      return Object.entries(content).map(([key, value]) => (
+        <div key={key} className="subsection">
+          <h3 className="subsection-title">{key}</h3>
+          {Array.isArray(value) ? (
+            <ul className="subsection-list">
+              {value.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{value}</p>
+          )}
+        </div>
+      ));
+    }
+    return <p>{content}</p>;
+  };
+
+  const renderComplexItem = (item) => {
+    if (!item) return null;
+    
+    return (
+      <div className="complex-item">
+        {item.role && <h4 className="item-title">{item.role}</h4>}
+        {item.company && <p className="item-subtitle">{item.company}</p>}
+        {item.organization && <p className="item-subtitle">{item.organization}</p>}
+        {item.period && <p className="item-period">{item.period}</p>}
+        {item.location && <p className="item-location">{item.location}</p>}
+        {item.description && Array.isArray(item.description) && (
+          <ul className="item-description">
+            {item.description.map((desc, i) => (
+              <li key={i}>{desc}</li>
+            ))}
+          </ul>
+        )}
+        {item.name && (
+          <>
+            <h4 className="project-name">
+              {item.name}
+              {item.status && <span className="project-status">[{item.status}]</span>}
+            </h4>
+            <p className="project-description">{item.description}</p>
+            {item.tech && (
+              <div className="project-tech">
+                {item.tech.map((tech, i) => (
+                  <span key={i} className="tech-tag">{tech}</span>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="resume-section">
+      <h2 className="section-header">{title}</h2>
+      <div className="section-content">{renderContent()}</div>
+    </div>
+  );
 };
 
 const ResumeViewer = ({ onClose, resumeData }) => {
@@ -91,6 +171,43 @@ const ResumeViewer = ({ onClose, resumeData }) => {
     document.body.removeChild(link);
   };
 
+  const renderResumeContent = () => (
+    <div className="resume-content">
+      <div className="resume-header">
+        <h1>{profile.name}</h1>
+        <h2>{profile.title}</h2>
+        <p className="tagline">{profile.tagline}</p>
+        <div className="contact-info">
+          {Object.entries(profile.contact).map(([key, value]) => (
+            <a key={key} href={key === 'email' ? `mailto:${value}` : value} target="_blank" rel="noopener noreferrer">
+              {value}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <ResumeSection title="SUMMARY" content={profile.summary} />
+      <ResumeSection title="EXPERIENCE" content={profile.experience} />
+      <ResumeSection title="EDUCATION" content={profile.education} />
+      <ResumeSection title="PROJECTS" content={profile.projects} />
+      <ResumeSection title="SKILLS" content={profile.skills} />
+      <ResumeSection title="VOLUNTEERING" content={profile.volunteering} />
+      <ResumeSection title="ACHIEVEMENTS" content={profile.achievements} />
+      <ResumeSection title="CERTIFICATIONS" content={profile.certifications} />
+
+      <div className="resume-footer">
+        <div className="stats-grid">
+          {Object.entries(profile.stats).map(([key, value]) => (
+            <div key={key} className="stat-item">
+              <div className="stat-value">{value}</div>
+              <div className="stat-label">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   const renderStage = () => {
     switch (stage) {
       case 'INITIAL':
@@ -172,22 +289,7 @@ const ResumeViewer = ({ onClose, resumeData }) => {
               </div>
             </div>
             
-            <div className="resume-content">
-              {resumeData && Object.entries(resumeData).map(([section, content]) => (
-                <div key={section} className="resume-section">
-                  <h2 className="section-header">{section}</h2>
-                  {Array.isArray(content) ? (
-                    <ul className="section-list">
-                      {content.map((item, index) => (
-                        <li key={index} className="section-item">{item}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className="section-content">{content}</div>
-                  )}
-                </div>
-              ))}
-            </div>
+            {renderResumeContent()}
 
             <div className="resume-actions">
               <button 
@@ -227,4 +329,4 @@ const ResumeViewer = ({ onClose, resumeData }) => {
   );
 };
 
-export default ResumeViewer; 
+export default ResumeViewer;
