@@ -1,0 +1,186 @@
+@import '../../styles/themes';
+
+// Evil color scheme
+$neon-green: #0f0;
+$evil-red: #ff0000;
+$dark-red: #660000;
+$cyber-blue: #00f7ff;
+$background: #000000;
+$grid-color: rgba(0, 255, 0, 0.1);
+
+@keyframes glowPulse {
+  0% { text-shadow: 0 0 5px $neon-green; }
+  50% { text-shadow: 0 0 15px $neon-green, 0 0 25px $neon-green; }
+  100% { text-shadow: 0 0 5px $neon-green; }
+}
+
+@keyframes radarScan {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+.hacker-interface {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  color: $neon-green;
+  font-family: 'Courier New', monospace;
+  pointer-events: none;
+  z-index: 1000;
+  
+  .grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(to right, $grid-color 1px, transparent 1px),
+      linear-gradient(to bottom, $grid-color 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.5;
+    z-index: -1;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(
+        circle at center,
+        transparent 0%,
+        rgba(0, 0, 0, 0.8) 100%
+      );
+    }
+  }
+
+  .radar-circles {
+    position: fixed;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    width: 300px;
+    height: 300px;
+    
+    .radar-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid $neon-green;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: fadeInOut 3s infinite;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, $neon-green);
+        transform-origin: left;
+        animation: radarScan 4s linear infinite;
+      }
+    }
+  }
+
+  .interface-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    height: 100%;
+    
+    .left-panel, .right-panel {
+      width: 300px;
+    }
+  }
+
+  .section-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-bottom: 1px solid $neon-green;
+    animation: glowPulse 2s infinite;
+  }
+
+  .network-activity {
+    margin-top: 20px;
+    
+    .activity-list {
+      height: 300px;
+      overflow: hidden;
+    }
+    
+    .activity-item {
+      padding: 3px 5px;
+      font-size: 0.9em;
+      opacity: 0.8;
+      
+      &:first-child {
+        color: $evil-red;
+        opacity: 1;
+        animation: glowPulse 1s infinite;
+      }
+    }
+  }
+
+  .security-status {
+    .status-item {
+      padding: 5px;
+      margin: 5px 0;
+      font-size: 0.9em;
+      border-left: 2px solid $neon-green;
+      
+      &:nth-child(3) {
+        border-left-color: $evil-red;
+        color: $evil-red;
+      }
+    }
+  }
+
+  .system-status {
+    .status-line {
+      padding: 5px;
+      margin: 5px 0;
+      font-size: 0.9em;
+      display: flex;
+      align-items: center;
+      
+      &::before {
+        content: '>';
+        margin-right: 10px;
+        color: $evil-red;
+      }
+    }
+  }
+}
+
+// Evil scanline effect
+.hacker-interface::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    transparent 50%,
+    rgba(0, 255, 0, 0.05) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1001;
+  opacity: 0.3;
+} 
