@@ -1,0 +1,236 @@
+@use 'themes' as *;
+
+// Evil color scheme
+$evil-red: #ff0000;
+$evil-dark-red: #660000;
+$evil-black: #000000;
+$evil-white: #ffffff;
+
+// Evil effects
+@keyframes evilPulse {
+  0% { text-shadow: 0 0 10px $evil-red; }
+  50% { text-shadow: 0 0 20px $evil-red, 0 0 40px $evil-red; }
+  100% { text-shadow: 0 0 10px $evil-red; }
+}
+
+@keyframes evilGlitch {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(-10deg); opacity: 0.8; }
+  40% { transform: skew(10deg); opacity: 1; }
+  60% { transform: skew(-5deg); opacity: 0.9; }
+  80% { transform: skew(5deg); opacity: 1; }
+  100% { transform: skew(0deg); }
+}
+
+@keyframes evilScanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.cyber-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $evil-black;
+  color: $evil-red;
+  font-family: 'Courier New', monospace;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at center, 
+        rgba(255, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .boot-sequence {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    text-shadow: 0 0 10px $evil-red;
+    z-index: 2;
+
+    .boot-line {
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: bootFadeIn 0.5s forwards, evilPulse 2s infinite;
+
+      @for $i from 1 through 4 {
+        &:nth-child(#{$i}) {
+          animation-delay: $i * 0.7s;
+        }
+      }
+
+      &.error {
+        color: $evil-red;
+        animation: bootFadeIn 0.3s forwards, evilGlitch 0.5s infinite;
+      }
+    }
+
+    .blink {
+      animation: blink 0.8s infinite;
+    }
+  }
+}
+
+@keyframes bootFadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cyber-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hologram-display {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  z-index: 10;
+  border: 1px solid #00ff9d;
+  box-shadow: 0 0 15px #00ff9d;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.matrix-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: var(--layer-base);
+  
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    mix-blend-mode: screen;
+  }
+  
+  .rain-character {
+    position: absolute;
+    color: $evil-red;
+    font-family: var(--font-cyber);
+    font-size: 1.2rem;
+    line-height: 1;
+    white-space: nowrap;
+    text-shadow: 0 0 8px currentColor;
+    animation: matrixRain linear infinite;
+    
+    &.bright {
+      color: $evil-white;
+      text-shadow: 0 0 15px $evil-red,
+                   0 0 30px $evil-red;
+      animation: matrixRain linear infinite, evilPulse 2s infinite;
+    }
+    
+    &.dim {
+      opacity: 0.6;
+      color: $evil-dark-red;
+    }
+
+    &.glitch {
+      animation: matrixRain linear infinite, evilGlitch 0.3s infinite;
+    }
+  }
+}
+
+.matrix-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    radial-gradient(
+      circle at center,
+      transparent 0%,
+      rgba(102, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  pointer-events: none;
+  z-index: var(--layer-base);
+  mix-blend-mode: multiply;
+}
+
+.matrix-scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(255, 0, 0, 0.15) 51%,
+    transparent 51%
+  );
+  background-size: 100% 3px;
+  pointer-events: none;
+  z-index: var(--layer-base);
+  opacity: 0.7;
+  animation: evilScanline 8s linear infinite;
+}
+
+.matrix-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(to right, rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: var(--layer-base);
+  opacity: 0.5;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  }
+}
