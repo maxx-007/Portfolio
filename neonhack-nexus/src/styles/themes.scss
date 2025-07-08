@@ -1,0 +1,171 @@
+// Theme variables
+:root {
+  // Colors
+  --cyber-blue: #00ffff;
+  --cyber-pink: #ff00ff;
+  --neon-green: #00ff9d;
+  --cyber-yellow: #ffff00;
+  --cyber-red: #ff0000;
+  
+  // Background colors
+  --bg-dark: #000000;
+  --bg-dark-alt: #0a0a0a;
+  --bg-glass: rgba(0, 0, 0, 0.3);
+  
+  // Text colors
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.5);
+  
+  // Layer indices
+  --layer-base: 1;
+  --layer-overlay: 10;
+  --layer-modal: 100;
+  --layer-tooltip: 1000;
+  
+  // Fonts
+  --font-cyber: 'Share Tech Mono', 'Courier New', monospace;
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  
+  // Spacing
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  
+  // Border radius
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  
+  // Transitions
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  // Shadows
+  --shadow-sm: 0 2px 4px rgba(0, 255, 255, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 255, 255, 0.2);
+  --shadow-lg: 0 8px 16px rgba(0, 255, 255, 0.3);
+  
+  // Grid
+  --container-width: 1200px;
+  --grid-gap: 1rem;
+  --column-gap: 2rem;
+}
+
+// Mixins
+@mixin neon-text($color: var(--cyber-blue)) {
+  color: $color;
+  text-shadow: 0 0 10px $color,
+               0 0 20px $color,
+               0 0 30px $color;
+}
+
+@mixin glass-morphism {
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+}
+
+@mixin hologram-effect {
+  position: relative;
+  animation: hologramFlicker 2s linear infinite;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 255, 255, 0.2) 50%,
+      transparent 100%
+    );
+    animation: scanLine 2s linear infinite;
+  }
+}
+
+@mixin cyber-border($color: var(--cyber-blue)) {
+  border: 1px solid $color;
+  box-shadow: 0 0 10px rgba($color, 0.3);
+  
+  &:hover {
+    box-shadow: 0 0 20px rgba($color, 0.5);
+  }
+}
+
+@mixin cyber-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--cyber-blue) 0%,
+    var(--cyber-pink) 50%,
+    var(--neon-green) 100%
+  );
+}
+
+@mixin cyber-text-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--cyber-blue),
+    var(--cyber-pink)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Utility classes
+.neon-text {
+  @include neon-text;
+  
+  &--blue {
+    @include neon-text(var(--cyber-blue));
+  }
+  
+  &--pink {
+    @include neon-text(var(--cyber-pink));
+  }
+  
+  &--green {
+    @include neon-text(var(--neon-green));
+  }
+}
+
+.glass-panel {
+  @include glass-morphism;
+}
+
+.hologram {
+  @include hologram-effect;
+}
+
+.cyber-border {
+  @include cyber-border;
+  
+  &--blue {
+    @include cyber-border(var(--cyber-blue));
+  }
+  
+  &--pink {
+    @include cyber-border(var(--cyber-pink));
+  }
+  
+  &--green {
+    @include cyber-border(var(--neon-green));
+  }
+}
+
+.gradient-text {
+  @include cyber-text-gradient;
+}
+
+.gradient-bg {
+  @include cyber-gradient;
+} 
