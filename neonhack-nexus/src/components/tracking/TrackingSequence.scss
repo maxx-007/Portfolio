@@ -1,0 +1,391 @@
+@import '../../styles/cyberpunk.scss';
+
+$primary-color: #00ff8c;
+$secondary-color: #ff003c;
+$background-color: #000913;
+$terminal-bg: rgba(0, 9, 19, 0.95);
+$text-color: #e0e0e0;
+$danger-color: #ff003c;
+$success-color: #00ff8c;
+$warning-color: #ffb300;
+
+@mixin glassmorphism {
+  background: rgba(0, 9, 19, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@mixin neon-glow($color) {
+  box-shadow: 
+    0 0 5px rgba($color, 0.2),
+    0 0 10px rgba($color, 0.2),
+    0 0 15px rgba($color, 0.2),
+    0 0 20px rgba($color, 0.2);
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes glitch {
+  0% {
+    clip-path: inset(40% 0 61% 0);
+    transform: translate(-20px);
+  }
+  20% {
+    clip-path: inset(92% 0 1% 0);
+    transform: translate(20px);
+  }
+  40% {
+    clip-path: inset(43% 0 1% 0);
+    transform: translate(-15px);
+  }
+  60% {
+    clip-path: inset(25% 0 58% 0);
+    transform: translate(15px);
+  }
+  80% {
+    clip-path: inset(54% 0 7% 0);
+    transform: translate(-20px);
+  }
+  100% {
+    clip-path: inset(58% 0 43% 0);
+    transform: translate(20px);
+  }
+}
+
+.tracking-sequence {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $background-color;
+  color: $text-color;
+  font-family: 'JetBrains Mono', monospace;
+  z-index: 9999;
+  overflow: hidden;
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &__grid {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image: 
+      linear-gradient(rgba($primary-color, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($primary-color, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg) translateY(-50%) translateZ(-100px);
+    animation: grid-move 20s linear infinite;
+  }
+
+  &__noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+  }
+
+  &__vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+  }
+
+  &__interface {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  &__header {
+    @include glassmorphism;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+  }
+
+  &__status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  &__status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: $primary-color;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  &__time {
+    font-family: 'Share Tech Mono', monospace;
+    color: rgba($text-color, 0.7);
+  }
+
+  &__terminal {
+    @include glassmorphism;
+    flex: 1;
+    position: relative;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  &__scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($primary-color, 0.5),
+      transparent
+    );
+    animation: scanline 4s linear infinite;
+    opacity: 0.5;
+  }
+
+  &__content {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 1rem;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba($text-color, 0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba($primary-color, 0.5);
+      border-radius: 5px;
+    }
+  }
+
+  &__line {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    position: relative;
+    
+    &:hover {
+      color: $primary-color;
+      text-shadow: 0 0 5px rgba($primary-color, 0.5);
+    }
+  }
+
+  &__typing {
+    display: flex;
+    align-items: center;
+    color: $primary-color;
+  }
+
+  &__cursor {
+    width: 10px;
+    height: 20px;
+    background-color: $primary-color;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+
+  &__actions {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__button {
+    @include glassmorphism;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    color: $text-color;
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--danger {
+      background: linear-gradient(45deg, darken($danger-color, 30%), $danger-color);
+      
+      &:hover:not(:disabled) {
+        @include neon-glow($danger-color);
+        transform: translateY(-2px);
+      }
+    }
+
+    &--primary {
+      background: linear-gradient(45deg, darken($primary-color, 30%), $primary-color);
+      
+      &:hover:not(:disabled) {
+        @include neon-glow($primary-color);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__button-icon {
+    font-size: 1.2rem;
+  }
+
+  &__footer {
+    @include glassmorphism;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+  }
+
+  &__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  &__metric {
+    span {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      color: rgba($text-color, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  &__progress {
+    height: 4px;
+    background: rgba($text-color, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  &__progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+    transition: width 0.3s ease;
+  }
+
+  &__lockdown {
+    @include glassmorphism;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    animation: glitch 0.5s infinite;
+    
+    &-icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 2rem;
+      color: $danger-color;
+      animation: pulse 2s infinite;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-text {
+      text-align: center;
+
+      h1 {
+        font-size: 3rem;
+        color: $danger-color;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-weight: 800;
+      }
+
+      p {
+        color: rgba($text-color, 0.7);
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+@keyframes grid-move {
+  0% {
+    transform: perspective(500px) rotateX(60deg) translateY(-50%) translateZ(-100px);
+  }
+  100% {
+    transform: perspective(500px) rotateX(60deg) translateY(0%) translateZ(-100px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+} 
