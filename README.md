@@ -55,29 +55,6 @@ To run using Docker:
 docker build -t neonhack-nexus .
 docker run -p 3000:3000 neonhack-nexus
 ```
-
-## 📁 Project Structure
-
-```
-neonhack-nexus/
-├── app/               # Main application components
-├── src/
-│   ├── components/   # React components
-│   │   ├── 3d/      # 3D visualizations
-│   │   ├── effects/ # Visual effects
-│   │   ├── hud/     # HUD interface
-│   │   ├── resume/  # Resume viewer
-│   │   └── terminal/# Terminal interface
-│   └── styles/      # SCSS stylesheets
-```
-
-## 🎨 Customization
-
-The project includes several theme options and customizable components:
-- Cyberpunk color schemes in `styles/themes.scss`
-- Animation settings in `styles/animations.scss`
-- HUD configurations in `styles/hud.scss`
-
 ## 🔧 Development
 
 To start development:
@@ -87,17 +64,3 @@ To start development:
 3. Make your changes
 4. Submit a pull request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📧 Contact
-
-Feel free to reach out if you have any questions or suggestions!
-
----
-Made with 💻 and neon dreams
