@@ -55,6 +55,11 @@
       );
       transition: transform 0.5s ease;
     }
+
+    @media (max-width: 768px) {
+      padding: 8px 16px;
+      font-size: 0.9em;
+    }
   }
 
   // Cyber scroll stage
@@ -220,7 +225,7 @@
   .resume-display {
     width: 90%;
     max-width: 1200px;
-    height: 90%;
+    height: 90vh;
     background: rgba(0, 0, 0, 0.9);
     border: 2px solid #00ff00;
     padding: 2em;
@@ -228,8 +233,14 @@
     overflow-y: auto;
     animation: fadeIn 0.5s ease-out;
 
+    @media (max-width: 768px) {
+      width: 95%;
+      padding: 1em;
+      height: 95vh;
+    }
+
     &::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
     }
 
     &::-webkit-scrollbar-track {
@@ -238,110 +249,265 @@
 
     &::-webkit-scrollbar-thumb {
       background: #00ff00;
-      border-radius: 5px;
+      border-radius: 4px;
     }
 
     .classified-header {
       text-align: center;
       margin-bottom: 2em;
-      position: relative;
       padding: 1em;
       border: 1px solid #00ff00;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: #00ff00;
-        animation: scanline 2s linear infinite;
-      }
+      position: sticky;
+      top: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 10;
 
       .warning-label {
-        font-size: 2em;
+        font-size: 1.5em;
         color: #ff0000;
         text-shadow: 0 0 10px #ff0000;
         margin-bottom: 1em;
-        animation: warningFlicker 2s infinite;
       }
 
       .file-info {
         display: flex;
         justify-content: space-around;
-        font-size: 1.2em;
+        flex-wrap: wrap;
+        gap: 1em;
 
         span {
-          animation: textGlitch 5s infinite;
+          color: #00ff00;
         }
       }
     }
 
     .resume-content {
-      .resume-section {
-        margin-bottom: 2em;
-        padding: 1em;
-        border: 1px solid rgba(0, 255, 0, 0.3);
-        background: rgba(0, 255, 0, 0.05);
-        position: relative;
-        overflow: hidden;
+      padding: 0 1em;
 
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            45deg,
-            transparent 0%,
-            rgba(0, 255, 0, 0.1) 50%,
-            transparent 100%
-          );
-          animation: gradientMove 3s linear infinite;
+      .resume-header {
+        text-align: center;
+        margin-bottom: 3em;
+        padding-bottom: 2em;
+        border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+
+        h1 {
+          font-size: 2.5em;
+          margin-bottom: 0.5em;
+          color: #00ff00;
+          text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+
+          @media (max-width: 768px) {
+            font-size: 2em;
+          }
         }
 
-        .section-header {
-          color: #00ff00;
+        h2 {
           font-size: 1.5em;
           margin-bottom: 1em;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+          color: #00ffff;
+
+          @media (max-width: 768px) {
+            font-size: 1.2em;
+          }
         }
 
-        .section-list {
-          list-style: none;
-          padding: 0;
+        .tagline {
+          font-size: 1.2em;
+          color: #ff00ff;
+          margin-bottom: 1.5em;
 
-          .section-item {
-            margin: 0.5em 0;
-            padding-left: 1.5em;
-            position: relative;
+          @media (max-width: 768px) {
+            font-size: 1em;
+          }
+        }
 
-            &::before {
-              content: '>';
-              position: absolute;
-              left: 0;
-              color: #00ff00;
-              animation: blink 1s infinite;
+        .contact-info {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 1.5em;
+
+          a {
+            color: #00ff00;
+            text-decoration: none;
+            transition: all 0.3s ease;
+
+            &:hover {
+              color: #00ffff;
+              text-shadow: 0 0 10px #00ffff;
             }
+          }
+
+          @media (max-width: 768px) {
+            gap: 1em;
+            font-size: 0.9em;
+          }
+        }
+      }
+
+      .resume-section {
+        margin-bottom: 3em;
+
+        .section-header {
+          font-size: 1.8em;
+          color: #00ffff;
+          margin-bottom: 1em;
+          border-bottom: 1px solid #00ffff;
+          padding-bottom: 0.5em;
+
+          @media (max-width: 768px) {
+            font-size: 1.5em;
           }
         }
 
         .section-content {
-          line-height: 1.6;
+          padding-left: 1em;
+
+          .complex-item {
+            margin-bottom: 2em;
+
+            .item-title {
+              font-size: 1.3em;
+              color: #00ff00;
+              margin-bottom: 0.5em;
+            }
+
+            .item-subtitle {
+              font-size: 1.1em;
+              color: #00ffff;
+              margin-bottom: 0.3em;
+            }
+
+            .item-period, .item-location {
+              font-size: 0.9em;
+              color: #ff00ff;
+              margin-bottom: 0.3em;
+            }
+
+            .item-description {
+              list-style-type: none;
+              padding-left: 1em;
+              margin-top: 1em;
+
+              li {
+                margin-bottom: 0.5em;
+                position: relative;
+
+                &:before {
+                  content: '>';
+                  position: absolute;
+                  left: -1em;
+                  color: #00ff00;
+                }
+              }
+            }
+          }
+
+          .project-name {
+            font-size: 1.3em;
+            color: #00ff00;
+            margin-bottom: 0.5em;
+
+            .project-status {
+              font-size: 0.8em;
+              color: #ff00ff;
+              margin-left: 1em;
+            }
+          }
+
+          .project-description {
+            margin-bottom: 1em;
+          }
+
+          .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin-top: 1em;
+
+            .tech-tag {
+              background: rgba(0, 255, 0, 0.1);
+              border: 1px solid #00ff00;
+              padding: 0.2em 0.5em;
+              border-radius: 3px;
+              font-size: 0.9em;
+            }
+          }
+        }
+
+        .subsection {
+          margin-bottom: 2em;
+
+          .subsection-title {
+            color: #00ffff;
+            margin-bottom: 1em;
+            font-size: 1.2em;
+          }
+
+          .subsection-list {
+            list-style-type: none;
+            padding-left: 1em;
+
+            li {
+              margin-bottom: 0.5em;
+              position: relative;
+
+              &:before {
+                content: '>';
+                position: absolute;
+                left: -1em;
+                color: #00ff00;
+              }
+            }
+          }
+        }
+      }
+
+      .resume-footer {
+        margin-top: 4em;
+        padding-top: 2em;
+        border-top: 1px solid rgba(0, 255, 0, 0.3);
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 2em;
+          text-align: center;
+
+          .stat-item {
+            .stat-value {
+              font-size: 2em;
+              color: #00ffff;
+              margin-bottom: 0.5em;
+            }
+
+            .stat-label {
+              color: #00ff00;
+              text-transform: uppercase;
+              font-size: 0.9em;
+            }
+          }
         }
       }
     }
 
     .resume-actions {
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       display: flex;
       justify-content: center;
       gap: 2em;
+      padding: 1em;
+      background: rgba(0, 0, 0, 0.95);
+      border-top: 1px solid #00ff00;
       margin-top: 2em;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 1em;
+      }
     }
   }
 
@@ -423,4 +589,4 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-} 
+}
