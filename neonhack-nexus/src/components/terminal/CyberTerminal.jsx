@@ -30,6 +30,7 @@ const CyberTerminal = ({ onMatrixToggle, className, onShowSkills, onShowProjects
   const [history, setHistory] = useState([]);
   const [currentCommand, setCurrentCommand] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(true);
   const inputRef = useRef(null);
   const terminalRef = useRef(null);
 
@@ -315,6 +316,30 @@ UNAUTHORIZED COMMAND DETECTED. SYSTEM LOGGED.`,
     })
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (terminalRef.current && !terminalRef.current.contains(event.target)) {
+        setIsMinimized(true);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleTerminalClick = () => {
+    if (isMinimized) {
+      setIsMinimized(false);
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 300); // Wait for animation to complete
+    }
+  };
+
   const handleCommand = async (cmd) => {
     if (isProcessing) return;
     
@@ -353,29 +378,37 @@ UNAUTHORIZED COMMAND DETECTED. SYSTEM LOGGED.`,
   }, []);
 
   return (
-    <div className={`cyber-terminal ${className || ''} ${isProcessing ? 'processing' : ''}`}>
+    <div 
+      ref={terminalRef}
+      className={`cyber-terminal ${className || ''} ${isMinimized ? 'minimized' : ''}`}
+      onClick={handleTerminalClick}
+    >
       <div className="terminal-header">
-        <span className="title">CYBERSEC TERMINAL</span>
+        <div className="title">
+          NEONHACK TERMINAL v1.0
+        </div>
         <div className="controls">
           <div className="control"></div>
           <div className="control"></div>
           <div className="control"></div>
         </div>
       </div>
-      <div className="terminal-content" ref={terminalRef}>
-        {history.map((entry, i) => (
-          <div key={i} className="terminal-entry">
-            {entry.command && (
-              <div className="command-line">
-                <span className="prompt">{'>'}</span>
-                <span className="command">{entry.command}</span>
-              </div>
-            )}
-            <div className={`output ${entry.type}`}>
-              {entry.output}
+      
+      <div className="terminal-content">
+        {history.map((entry, index) => (
+          <div key={index} className="terminal-entry">
+            <div className="command-line">
+              <span className="prompt">{'>'}</span>
+              <span className="command">{entry.command}</span>
             </div>
+            {entry.output && (
+              <pre className={`output ${entry.type}`}>
+                {entry.output}
+              </pre>
+            )}
           </div>
         ))}
+        
         <div className="input-line">
           <span className="prompt">{'>'}</span>
           <input
