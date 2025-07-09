@@ -2,8 +2,8 @@
 
 Welcome to my cyberpunk-themed portfolio website! This project showcases my skills and experience through an immersive, interactive cyberpunk interface.
 
-![Portfolio Preview](./app/welcome/1.png)
-![Portfolio Preview](./app/welcome/2.png)
+![Portfolio Preview](./info/welcome/1.png)
+![Portfolio Preview](./info/welcome/2.png)
 
 ## 🌟 Features
 
