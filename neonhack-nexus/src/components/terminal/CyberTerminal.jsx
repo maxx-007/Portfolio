@@ -64,14 +64,12 @@ const ProjectHackerModal = ({ project, isOpen, onClose }) => {
     setIsHacking(false);
     accessGrantedSound.play();
     
-    // Simulate opening the link
+    // Open the link based on the selected option and project's URLs
     setTimeout(() => {
-      if (option === 'github') {
-        // Replace with actual GitHub URL
-        window.open(`https://github.com/yourusername/${project.name.toLowerCase().replace(/\s+/g, '-')}`, '_blank');
-      } else if (option === 'demo') {
-        // Replace with actual demo URL
-        window.open(`https://your-demo-site.com/${project.name.toLowerCase().replace(/\s+/g, '-')}`, '_blank');
+      if (option === 'github' && project.githubUrl) {
+        window.open(project.githubUrl, '_blank');
+      } else if (option === 'demo' && project.demoUrl) {
+        window.open(project.demoUrl, '_blank');
       }
       onClose();
     }, 1000);
@@ -154,74 +152,78 @@ const ProjectHackerModal = ({ project, isOpen, onClose }) => {
                 SELECT YOUR INFILTRATION METHOD:
               </div>
               
-              <button
-                onClick={() => handleOptionSelect('github')}
-                style={{
-                  width: '100%',
-                  background: 'black',
-                  border: '1px solid #ff0000',
-                  color: '#ff0000',
-                  padding: '1rem',
-                  fontFamily: 'Courier New, monospace',
-                  cursor: 'pointer',
-                  marginBottom: '1rem',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = '#1a0000';
-                  e.target.style.color = '#ff3333';
-                  e.target.style.transform = 'scale(1.02)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'black';
-                  e.target.style.color = '#ff0000';
-                  e.target.style.transform = 'scale(1)';
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontWeight: 'bold' }}>[1] BREACH SOURCE CODE REPOSITORY</div>
-                      <div style={{ fontSize: '0.875rem', opacity: 0.75 }}>Access classified GitHub vault</div>
+              {project.githubUrl && (
+                <button
+                  onClick={() => handleOptionSelect('github')}
+                  style={{
+                    width: '100%',
+                    background: 'black',
+                    border: '1px solid #ff0000',
+                    color: '#ff0000',
+                    padding: '1rem',
+                    fontFamily: 'Courier New, monospace',
+                    cursor: 'pointer',
+                    marginBottom: '1rem',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = '#1a0000';
+                    e.target.style.color = '#ff3333';
+                    e.target.style.transform = 'scale(1.02)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'black';
+                    e.target.style.color = '#ff0000';
+                    e.target.style.transform = 'scale(1)';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ textAlign: 'left' }}>
+                        <div style={{ fontWeight: 'bold' }}>[1] BREACH SOURCE CODE REPOSITORY</div>
+                        <div style={{ fontSize: '0.875rem', opacity: 0.75 }}>Access classified GitHub vault</div>
+                      </div>
                     </div>
+                    <div style={{ fontSize: '1.5rem' }}>{'>'}</div>
                   </div>
-                  <div style={{ fontSize: '1.5rem' }}>{'>'}</div>
-                </div>
-              </button>
+                </button>
+              )}
               
-              <button
-                onClick={() => handleOptionSelect('demo')}
-                style={{
-                  width: '100%',
-                  background: 'black',
-                  border: '1px solid #ff0000',
-                  color: '#ff0000',
-                  padding: '1rem',
-                  fontFamily: 'Courier New, monospace',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = '#1a0000';
-                  e.target.style.color = '#ff3333';
-                  e.target.style.transform = 'scale(1.02)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'black';
-                  e.target.style.color = '#ff0000';
-                  e.target.style.transform = 'scale(1)';
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontWeight: 'bold' }}>[2] INFILTRATE LIVE DEPLOYMENT</div>
-                      <div style={{ fontSize: '0.875rem', opacity: 0.75 }}>Access operational system</div>
+              {project.demoUrl && (
+                <button
+                  onClick={() => handleOptionSelect('demo')}
+                  style={{
+                    width: '100%',
+                    background: 'black',
+                    border: '1px solid #ff0000',
+                    color: '#ff0000',
+                    padding: '1rem',
+                    fontFamily: 'Courier New, monospace',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = '#1a0000';
+                    e.target.style.color = '#ff3333';
+                    e.target.style.transform = 'scale(1.02)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'black';
+                    e.target.style.color = '#ff0000';
+                    e.target.style.transform = 'scale(1)';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ textAlign: 'left' }}>
+                        <div style={{ fontWeight: 'bold' }}>[2] INFILTRATE LIVE DEPLOYMENT</div>
+                        <div style={{ fontSize: '0.875rem', opacity: 0.75 }}>Access operational system</div>
+                      </div>
                     </div>
+                    <div style={{ fontSize: '1.5rem' }}>{'>'}</div>
                   </div>
-                  <div style={{ fontSize: '1.5rem' }}>{'>'}</div>
-                </div>
-              </button>
+                </button>
+              )}
             </div>
 
             <div style={{ textAlign: 'center', color: '#ff0000', fontFamily: 'Courier New, monospace', fontSize: '0.875rem', opacity: 0.75 }}>
@@ -405,37 +407,47 @@ const CyberTerminal = ({ onMatrixToggle, className, onShowSkills, onShowProjects
       name: "CatchPhish",
       description: "Real-time phishing detection platform that flags suspicious URLs using machine learning and WHOIS data.",
       tech: ["React", "Node.js", "Firebase", "ML", "Phishing Detection"],
-      impact: "Flagged 500+ phishing attempts in simulated environments; selected for Union Bank Hackathon."
+      impact: "Flagged 500+ phishing attempts in simulated environments; selected for Union Bank Hackathon.",
+      githubUrl: "https://github.com/maxx-007/catchphish",
+      demoUrl: "https://catchphish.vercel.app"
     },
     {
       name: "Web Application Firewall (WAF)",
       description: "AI-enhanced firewall for detecting and blocking malicious web traffic with real-time log monitoring.",
       tech: ["Node.js", "Express", "React", "MySQL", "MongoDB", "Cybersecurity"],
-      impact: "Built a custom hybrid WAF with live dashboard; future-ready for CatchPhish integration."
+      impact: "Built a custom hybrid WAF with live dashboard; future-ready for CatchPhish integration.",
+      githubUrl: "https://github.com/maxx-007/WEB-APPLICATION-FIREWALL",
+      demoUrl: "https://arise-firewall.vercel.app/"
     },
     {
       name: "FloodReaper",
       description: "A powerful network stress-testing and DDoS simulation tool with IP hopping via Tor integration.",
       tech: ["Python", "RustScan", "Tor Browser", "Network Testing"],
-      impact: "Simulated high-intensity DDoS scenarios in lab; used for resilience benchmarking."
+      impact: "Simulated high-intensity DDoS scenarios in lab; used for resilience benchmarking.",
+      githubUrl: "https://github.com/maxx-007/floodreaper",
+      demoUrl: "https://floodreaper.your-demo-site.com"
     },
     {
       name: "Women's Safety SOS App (In Progress)",
       description: "AI/ML-based safety app that monitors daily routes and triggers alerts on deviation or emergency.",
       tech: ["Android", "Java", "Firebase", "ML", "Geolocation"],
-      impact: "Implements privacy-respecting safety protocols; automatically notifies police & contacts."
+      impact: "Implements privacy-respecting safety protocols; automatically notifies police & contacts.",
+      githubUrl: "https://github.com/maxx-007/WomenSOSAPP",
+      demoUrl: "https://womens-safety-app.your-demo-site.com"
     },
     {
       name: "Arduino-Based Intrusion Detection",
       description: "Home security system with motion sensors and alert triggers using Arduino microcontrollers.",
       tech: ["Arduino", "C++", "IoT", "Embedded Security"],
-      impact: "Used in lab setups for remote access testing and physical intrusion simulations."
+      impact: "Used in lab setups for remote access testing and physical intrusion simulations.",
+      githubUrl: "https://github.com/maxx-007/Arduino-Based-Intrusion-Detection-System",
+      demoUrl: "https://arduino-intrusion.your-demo-site.com"
     }
   ];
 
   const commands = {
     help: () => ({
-      output: `Available commands:\nhelp     - Display this help message\nclear    - Clear terminal\nskills   - Display technical skills\nprojects - List cybersecurity projects\nwhoami   - Display hacker profile\ncontact  - Show contact information\nscan     - Run security scan simulation\nmatrix   - Toggle Matrix rain effect\nhack     - Initiate system breach simulation\nresume   - Show resume\n`,
+      output: `Available commands:\nhelp     - Display this help message\nclear    - Clear terminal\nskills   - Display technical skills\nprojects - List cybersecurity projects\nwhoami   - Display hacker profile\ncontact  - Show contact information\nscan     - Run security scan simulation\nmatrix   - Toggle Matrix rain effect\nhack     - Initiate system breach simulation\nresume - Show resume\n`,
       type: 'success'
     }),
     clear: () => {
@@ -474,7 +486,7 @@ const CyberTerminal = ({ onMatrixToggle, className, onShowSkills, onShowProjects
       setIsProcessing(true);
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const output = `${SKULL_ASCII}\nACCESSING CLASSIFIED PERSONNEL FILE...\n[██████████] 100% Complete\n\nIDENTITY: ELITE CYBERSECURITY SPECIALIST\nSTATUS: HIGHLY DANGEROUS\nTHREAT LEVEL: MAXIMUM\n\nSPECIALIZATIONS:\n  ├─ Advanced Penetration Testing\n  ├─ Zero-Day Exploit Development\n  ├─ Neural Network Security\n  └─ Quantum Cryptography Research\n\nACHIEVEMENTS:\n  ├─ Multiple CVEs Discovered\n  ├─ BlackHat Speaker\n  ├─ DEFCON CTF Winner\n  └─ Custom Exploit Framework Developer\n\nWARNING: This information is classified. Your IP has been logged.\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      const output = `${SKULL_ASCII}\nACCESSING CLASSIFIED PERSONNEL FILE...\n[██████████] 100% Complete\n\nIDENTITY: ELITE CYBERSECURITY SPECIALIST\nSTATUS: HIGHLY DANGEROUS\nTHREAT LEVEL: MAXIMUM\n\nSPECIALIZATIONS:\n  ├─ Advanced Penetration Testing\n  ├─ Zero-Day Exploit Development\n  ├─ Neural Network Security\n  └─ Quantum Cryptography Research\n\nACHIEVEMENTS:\n  ├─ Multiple CVEs Discovered\n  ├─ BlackHat Speaker\n  ├─ DEFCON CTF Winner\n  └─ Custom Exploit Framework Developer\n\nWARNING: This information is classified. Your IP has都被 logged.\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       return { output, type: 'warning' };
@@ -682,4 +694,5 @@ const CyberTerminal = ({ onMatrixToggle, className, onShowSkills, onShowProjects
 };
 
 export default CyberTerminal;
+
 
