@@ -27,34 +27,6 @@ Welcome to my cyberpunk-themed portfolio website! This project showcases my skil
 - PDF rendering
 - Docker support
 
-## 🛠️ Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/neonhack-nexus.git
-cd neonhack-nexus
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-```
-
-The site will be available at `http://localhost:5173`
-
-## 🐳 Docker Support
-
-To run using Docker:
-
-```bash
-docker build -t neonhack-nexus .
-docker run -p 3000:3000 neonhack-nexus
-```
 ## 🔧 Development
 
 To start development:
