@@ -350,3 +350,600 @@
     opacity: 0;
   }
 } 
+
+.cyber-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+
+  &-content {
+    background: black;
+    border: 2px solid #ff0000;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    max-width: 64rem;
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ff0000;
+    padding-bottom: 1rem;
+
+    h2 {
+      font-size: 1.5rem;
+      font-family: 'Courier New', monospace;
+      color: #ff0000;
+    }
+
+    .close-button {
+      color: #ff0000;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #ff3333;
+      }
+    }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+
+    .project-card {
+      background: black;
+      border: 1px solid #ff0000;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #1a0000;
+        border-color: #ff3333;
+        transform: scale(1.02);
+      }
+
+      .project-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+
+        span {
+          color: #ff0000;
+          margin-right: 0.5rem;
+        }
+
+        h3 {
+          color: #ff3333;
+          font-family: 'Courier New', monospace;
+          font-weight: bold;
+        }
+      }
+
+      .project-description {
+        color: #ff0000;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .tech-stack {
+        margin-bottom: 0.75rem;
+
+        .tech-label {
+          color: #ff0000;
+          font-family: 'Courier New', monospace;
+          font-size: 0.75rem;
+          margin-bottom: 0.25rem;
+        }
+
+        .tech-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.25rem;
+
+          span {
+            background: #1a0000;
+            color: #ff3333;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #ff0000;
+          }
+        }
+      }
+
+      .project-impact {
+        color: #ff3333;
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        opacity: 0.75;
+      }
+
+      .infiltrate-text {
+        color: #ff0000;
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .warning-text {
+    text-align: center;
+    color: #ff0000;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    margin-top: 1.5rem;
+  }
+}
+
+// Animation styles for hacking simulation
+.hacking-terminal {
+  text-align: center;
+
+  .skull-ascii {
+    color: #ff0000;
+    font-size: 0.75rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+  }
+
+  .hacking-status {
+    color: #ff0000;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 1.5rem;
+  }
+
+  .progress-steps {
+    .step {
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+
+      &.active {
+        color: #ff0000;
+      }
+
+      &.completed {
+        color: #00ff00;
+      }
+
+      &.pending {
+        color: #666;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 2px;
+        background: #1a0000;
+        border: 1px solid #ff0000;
+        margin-top: 0.5rem;
+
+        .progress {
+          height: 100%;
+          background: #ff0000;
+          animation: pulse 1s infinite;
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+
+/* New styles for ProjectHackerModal and ProjectsWindow */
+
+.cyber-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Ensure modal is on top */
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out;
+
+  &-content {
+    background: black;
+    border: 2px solid #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 1.5rem;
+    max-width: 90%;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.95);
+    animation: scaleIn 0.3s ease-out forwards;
+
+    @media (min-width: 768px) {
+      max-width: 64rem;
+    }
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ff0000;
+    padding-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
+
+    h2 {
+      font-size: 1.8rem;
+      font-family: 'Courier New', monospace;
+      color: #ff0000;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+      animation: pulse 2s infinite;
+    }
+
+    .close-button {
+      color: #ff0000;
+      font-size: 2rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.3s, transform 0.3s;
+
+      &:hover {
+        color: #ff3333;
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+
+    .project-card {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #ff0000;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+      padding: 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent 40%, rgba(255, 0, 0, 0.2) 50%, transparent 60%);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease-out;
+      }
+
+      &:hover {
+        background: rgba(26, 0, 0, 0.9);
+        border-color: #ff3333;
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+
+        &::before {
+          transform: translateX(100%);
+        }
+      }
+
+      .project-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.8rem;
+
+        span {
+          color: #00ff00; /* Green for prompt */
+          margin-right: 0.6rem;
+          font-size: 1.2rem;
+        }
+
+        h3 {
+          color: #00ff00; /* Green for project name */
+          font-family: 'Courier New', monospace;
+          font-weight: bold;
+          font-size: 1.1rem;
+          text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+        }
+      }
+
+      .project-description {
+        color: #ff0000;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+
+      .tech-stack {
+        margin-bottom: 1rem;
+
+        .tech-label {
+          color: #ff0000;
+          font-family: 'Courier New', monospace;
+          font-size: 0.8rem;
+          margin-bottom: 0.4rem;
+          text-transform: uppercase;
+        }
+
+        .tech-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.4rem;
+
+          span {
+            background: #1a0000;
+            color: #ff3333;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #ff0000;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+          }
+        }
+      }
+
+      .project-impact {
+        color: #ffff00; /* Yellow for impact */
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        opacity: 0.8;
+        line-height: 1.3;
+      }
+
+      .infiltrate-text {
+        color: #00ffff; /* Cyan for call to action */
+        font-family: 'Courier New', monospace;
+        font-size: 0.8rem;
+        margin-top: 1rem;
+        opacity: 0.7;
+        text-align: right;
+        animation: blink 1.5s infinite;
+      }
+    }
+  }
+
+  .warning-text {
+    text-align: center;
+    color: #ff0000;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-top: 2rem;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+}
+
+/* Hacking simulation styles */
+.hacking-terminal {
+  text-align: center;
+  padding: 2rem;
+
+  .skull-ascii {
+    color: #ff0000;
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    opacity: 0.7;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+  }
+
+  .hacking-status {
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+    animation: textGlow 1s infinite alternate;
+  }
+
+  .progress-steps {
+    margin-bottom: 2rem;
+
+    .step {
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &.active {
+        color: #ff0000;
+        text-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
+      }
+
+      &.completed {
+        color: #00ff00;
+        text-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+      }
+
+      &.pending {
+        color: #666;
+        opacity: 0.5;
+      }
+
+      .progress-bar {
+        width: 80%;
+        height: 4px;
+        background: #1a0000;
+        border: 1px solid #ff0000;
+        margin-top: 0.8rem;
+        border-radius: 2px;
+        overflow: hidden;
+
+        .progress {
+          height: 100%;
+          background: linear-gradient(90deg, #ff0000, #ff3333);
+          animation: progressBarFill 0.8s linear infinite alternate;
+          width: 100%; /* Will be controlled by JS for actual progress */
+        }
+      }
+    }
+  }
+}
+
+/* New Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0.8; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes textGlow {
+  from { text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); }
+  to { text-shadow: 0 0 15px rgba(0, 255, 0, 1); }
+}
+
+@keyframes progressBarFill {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments for terminal */
+@media (max-width: 768px) {
+  .cyber-terminal {
+    left: 10px;
+    right: 10px;
+    width: calc(100% - 20px);
+    
+    &.minimized {
+      height: 30px;
+    }
+    
+    &:not(.minimized) {
+      height: 300px;
+    }
+    
+    .terminal-header {
+      padding: 4px 8px;
+      height: 20px;
+      
+      .title {
+        font-size: 10px;
+      }
+      
+      .controls .control {
+        width: 8px;
+        height: 8px;
+      }
+    }
+
+    .terminal-content {
+      padding: 10px;
+    }
+  }
+
+  .cyber-modal {
+    padding: 0.5rem;
+
+    &-content {
+      padding: 1rem;
+    }
+
+    &-header {
+      h2 {
+        font-size: 1.2rem;
+      }
+      .close-button {
+        font-size: 1.5rem;
+      }
+    }
+
+    &-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .project-card {
+      padding: 1rem;
+
+      .project-header h3 {
+        font-size: 1rem;
+      }
+      .project-description,
+      .tech-stack .tech-label,
+      .tech-stack .tech-tags span,
+      .project-impact,
+      .infiltrate-text {
+        font-size: 0.8rem;
+      }
+    }
+
+    .hacking-terminal {
+      padding: 1rem;
+
+      .skull-ascii {
+        font-size: 0.6rem;
+      }
+      .hacking-status {
+        font-size: 1rem;
+      }
+      .progress-steps .step {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+

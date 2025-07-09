@@ -41,6 +41,8 @@ const ProjectHackerModal = ({ project, isOpen, onClose }) => {
     'ACCESS GRANTED - WELCOME TO THE MATRIX'
   ];
 
+  const accessGrantedSound = new Audio('/public/sounds/access_granted.wav');
+
   useEffect(() => {
     if (isOpen) {
       setCurrentStep(0);
@@ -60,6 +62,7 @@ const ProjectHackerModal = ({ project, isOpen, onClose }) => {
     }
 
     setIsHacking(false);
+    accessGrantedSound.play();
     
     // Simulate opening the link
     setTimeout(() => {
@@ -267,9 +270,12 @@ const ProjectsWindow = ({ projects, onClose }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const projectClickSound = new Audio('/public/sounds/project_click.wav');
+
   const handleProjectClick = (project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
+    projectClickSound.play();
   };
 
   const handleModalClose = () => {
@@ -429,18 +435,7 @@ const CyberTerminal = ({ onMatrixToggle, className, onShowSkills, onShowProjects
 
   const commands = {
     help: () => ({
-      output: `Available commands:
-help     - Display this help message
-clear    - Clear terminal
-skills   - Display technical skills
-projects - List cybersecurity projects
-whoami   - Display hacker profile
-contact  - Show contact information
-scan     - Run security scan simulation
-matrix   - Toggle Matrix rain effect
-hack     - Initiate system breach simulation
-resume   - Show resume
-`,
+      output: `Available commands:\nhelp     - Display this help message\nclear    - Clear terminal\nskills   - Display technical skills\nprojects - List cybersecurity projects\nwhoami   - Display hacker profile\ncontact  - Show contact information\nscan     - Run security scan simulation\nmatrix   - Toggle Matrix rain effect\nhack     - Initiate system breach simulation\nresume   - Show resume\n`,
       type: 'success'
     }),
     clear: () => {
@@ -458,18 +453,7 @@ resume   - Show resume
       setIsProcessing(true);
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const output = `${SKULL_ASCII}
-UNAUTHORIZED ACCESS DETECTED
-ACCESSING RESTRICTED SKILLSET DATABASE...
-[██████████] 100% Complete
-
-SKILL MATRIX EXPOSED:
-${Object.entries(skillsData).map(([category, skills]) => `
-[${category}]
-${skills.map(skill => `  ├─ ${skill}`).join('\n')}`).join('\n')}
-
-WARNING: Root system tracking your location...
-REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      const output = `${SKULL_ASCII}\nUNAUTHORIZED ACCESS DETECTED\nACCESSING RESTRICTED SKILLSET DATABASE...\n[██████████] 100% Complete\n\nSKILL MATRIX EXPOSED:\n${Object.entries(skillsData).map(([category, skills]) => `\n[${category}]\n${skills.map(skill => `  ├─ ${skill}`).join('\n')}`).join('\n')}\n\nWARNING: Root system tracking your location...\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       onShowSkills(skillsData);
@@ -479,19 +463,7 @@ REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       setIsProcessing(true);
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const output = `${SKULL_ASCII}
-ACCESSING CLASSIFIED PROJECT DATABASE...
-[██████████] 100% Complete
-
-PROJECTS EXPOSED:
-${projectsData.map((project, i) => `
-[${i + 1}] ${project.name}
-    ├─ ${project.description}
-    ├─ Tech: ${project.tech.join(', ')}
-    └─ Impact: ${project.impact}`).join('\n')}
-
-CAUTION: System breach detected. Initiating countermeasures...
-REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      const output = `${SKULL_ASCII}\nACCESSING CLASSIFIED PROJECT DATABASE...\n[██████████] 100% Complete\n\nPROJECTS EXPOSED:\n${projectsData.map((project, i) => `\n[${i + 1}] ${project.name}\n    ├─ ${project.description}\n    ├─ Tech: ${project.tech.join(', ')}\n    └─ Impact: ${project.impact}`).join('\n')}\n\nCAUTION: System breach detected. Initiating countermeasures...\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       // Use the hacker-themed projects modal
@@ -502,28 +474,7 @@ REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       setIsProcessing(true);
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const output = `${SKULL_ASCII}
-ACCESSING CLASSIFIED PERSONNEL FILE...
-[██████████] 100% Complete
-
-IDENTITY: ELITE CYBERSECURITY SPECIALIST
-STATUS: HIGHLY DANGEROUS
-THREAT LEVEL: MAXIMUM
-
-SPECIALIZATIONS:
-  ├─ Advanced Penetration Testing
-  ├─ Zero-Day Exploit Development
-  ├─ Neural Network Security
-  └─ Quantum Cryptography Research
-
-ACHIEVEMENTS:
-  ├─ Multiple CVEs Discovered
-  ├─ BlackHat Speaker
-  ├─ DEFCON CTF Winner
-  └─ Custom Exploit Framework Developer
-
-WARNING: This information is classified. Your IP has been logged.
-REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      const output = `${SKULL_ASCII}\nACCESSING CLASSIFIED PERSONNEL FILE...\n[██████████] 100% Complete\n\nIDENTITY: ELITE CYBERSECURITY SPECIALIST\nSTATUS: HIGHLY DANGEROUS\nTHREAT LEVEL: MAXIMUM\n\nSPECIALIZATIONS:\n  ├─ Advanced Penetration Testing\n  ├─ Zero-Day Exploit Development\n  ├─ Neural Network Security\n  └─ Quantum Cryptography Research\n\nACHIEVEMENTS:\n  ├─ Multiple CVEs Discovered\n  ├─ BlackHat Speaker\n  ├─ DEFCON CTF Winner\n  └─ Custom Exploit Framework Developer\n\nWARNING: This information is classified. Your IP has been logged.\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       return { output, type: 'warning' };
@@ -546,7 +497,7 @@ REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
           output += '█';
           setHistory(prev => [...prev.slice(0, -1), { 
             command: currentCommand,
-            output: output + ']', 
+            output: output + ']',
             type: 'error' 
           }]);
           await new Promise(resolve => setTimeout(resolve, 100));
@@ -554,14 +505,7 @@ REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
         output += '] Complete\n\n';
       }
       
-      output += `ACCESS GRANTED - Welcome to the mainframe
-WARNING: Multiple security protocols bypassed
-Quantum encryption algorithms compromised
-Neural firewall disabled
-System access: ROOT
-
-${SKULL_ASCII}
-REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      output += `ACCESS GRANTED - Welcome to the mainframe\nWARNING: Multiple security protocols bypassed\nQuantum encryption algorithms compromised\nNeural firewall disabled\nSystem access: ROOT\n\n${SKULL_ASCII}\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       return { output, type: 'error' };
@@ -581,23 +525,13 @@ REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
         output = `RUNNING SECURITY SCAN...\n[${'█'.repeat(i)}${' '.repeat(10-i)}] ${i*10}%`;
         setHistory(prev => [...prev.slice(0, -1), { 
           command: currentCommand,
-          output, 
+          output,
           type: 'error' 
         }]);
         await new Promise(resolve => setTimeout(resolve, 200));
       }
       
-      output = `RUNNING SECURITY SCAN...
-[██████████] 100% Complete
-
-CRITICAL VULNERABILITIES DETECTED:
-${vulnerabilities.map((v, i) => `[!] ${v}`).join('\n')}
-
-System security status: COMPROMISED
-Recommended action: IMMEDIATE INTERVENTION
-
-${SKULL_ASCII}
-REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      output = `RUNNING SECURITY SCAN...\n[██████████] 100% Complete\n\nCRITICAL VULNERABILITIES DETECTED:\n${vulnerabilities.map((v, i) => `[!] ${v}`).join('\n')}\n\nSystem security status: COMPROMISED\nRecommended action: IMMEDIATE INTERVENTION\n\n${SKULL_ASCII}\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       return { output, type: 'error' };
@@ -606,18 +540,7 @@ REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       setIsProcessing(true);
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const output = `${SKULL_ASCII}
-ESTABLISHING SECURE COMMUNICATION CHANNEL...
-[██████████] 100% Complete
-
-CONTACT PROTOCOLS:
-  ├─ Email: [REDACTED]
-  ├─ PGP Key: 0xAB54321...
-  ├─ Github: github.com/[username]
-  └─ LinkedIn: linkedin.com/in/[username]
-
-WARNING: Communication channels monitored. Proceed with caution.
-REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      const output = `${SKULL_ASCII}\nESTABLISHING SECURE COMMUNICATION CHANNEL...\n[██████████] 100% Complete\n\nCONTACT PROTOCOLS:\n  ├─ Email: [REDACTED]\n  ├─ PGP Key: 0xAB54321...\n  ├─ Github: github.com/[username]\n  └─ LinkedIn: linkedin.com/in/[username]\n\nWARNING: Communication channels monitored. Proceed with caution.\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       return { output, type: 'warning' };
@@ -626,25 +549,14 @@ REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       setIsProcessing(true);
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const output = `${SKULL_ASCII}
-ACCESSING CLASSIFIED PERSONNEL FILE...
-[██████████] 100% Complete
-
-CAUTION: This file contains highly sensitive information.
-Security clearance required for full access.
-Initiating Matrix protocol...
-
-WARNING: Root system tracking your location...
-REMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
+      const output = `${SKULL_ASCII}\nACCESSING CLASSIFIED PERSONNEL FILE...\n[██████████] 100% Complete\n\nCAUTION: This file contains highly sensitive information.\nSecurity clearance required for full access.\nInitiating Matrix protocol...\n\nWARNING: Root system tracking your location...\nREMEMBER: MESS WITH THE BEST, DIE LIKE THE REST.`;
       
       setIsProcessing(false);
       onShowResume();
       return { output, type: 'warning' };
     },
     unknown: () => ({
-      output: `Command not recognized. Type "help" for available commands.
-${SKULL_ASCII}
-UNAUTHORIZED COMMAND DETECTED. SYSTEM LOGGED.`,
+      output: `Command not recognized. Type "help" for available commands.\n${SKULL_ASCII}\nUNAUTHORIZED COMMAND DETECTED. SYSTEM LOGGED.`,
       type: 'error'
     })
   };
